@@ -1,0 +1,24 @@
+TOOLCHAIN_TARGET="mmix"
+inherit toolchain
+
+NAME="mmix-newlib"
+VERSION=2.2.0.20150623
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Newlib for MMIX toolchain"
+DESCRIPTION="Assember, linker, and other binary utilities required for the
+Newlib-based embedded cross-compiling toolchains."
+HOMEPAGE="http://sourceware.org/newlib/"
+SRC_URI="mirror://sourceware/newlib/newlib-${VERSION}.tar.gz"
+SRC_DIR="newlib-${VERSION}"
+
+ARCH=noarch
+
+src_install() {
+	pushd ${B}
+	cyginstall -j1
+	mv ${D}/usr/mmix/{,sys-}include
+
+	# conflicts with native cygwin
+	rm -fr ${D}/usr/share/info/
+}
